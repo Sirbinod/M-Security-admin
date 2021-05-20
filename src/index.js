@@ -4,11 +4,15 @@ import {BrowserRouter} from "react-router-dom";
 import App from "./app/App";
 import "./i18n";
 import * as serviceWorker from "./serviceWorker";
+import {Provider} from "react-redux";
+import store from "./store";
 
 ReactDOM.render(
-  <BrowserRouter basename="/security">
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter basename="/security">
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );
 

@@ -1,0 +1,29 @@
+// login
+export const LOGIN_START = "LOGIN_START";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+
+// signup
+export const SIGNUP_START = "SIGNUP_START";
+export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+export const SIGNUP_FAIL = "SIGNUP_FAIL";
+
+// partner_create
+export const PARTNER_CREATE_START = "PARTNER_CREATE_START";
+export const PARTNER_CREATE_SUCCESS = "PARTNER_CREATE_SUCCESS";
+export const PARTNER_CREATE_FAIL = "PARTNER_CREATE_FAIL";
+
+// fetch_partner
+export const PARTNER_FETCH_START = "PARTNER_FETCH_START";
+export const PARTNER_FETCH_SUCCESS = "PARTNER_FETCH_SUCCESS";
+export const PARTNER_FETCH_FAIL = "PARTNER_FETCH_FAIL";
+
+// cost_create
+export const COST_CREATE_START = "COST_CREATE_START";
+export const COST_CREATE_SUCCESS = "COST_CREATE_SUCCESS";
+export const COST_CREATE_FAIL = "COST_CREATE_FAIL";
+
+// fetch_cost
+export const COST_FETCH_START = "COST_FETCH_START";
+export const COST_FETCH_SUCCESS = "COST_FETCH_SUCCESS";
+export const COST_FETCH_FAIL = "COST_FETCH_FAIL";
