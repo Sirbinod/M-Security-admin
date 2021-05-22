@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import {partnerapi, partnercreateapi} from "../../utility/profile";
 import {
   PARTNER_CREATE_START,
@@ -28,7 +29,7 @@ const partnerCreateFail = (err) => {
 };
 
 export const partnerCreate =
-  (name, email, location, phone, password) => async (dispatch) => {
+  (name, email, location, phone, password, token) => async (dispatch) => {
     dispatch(partnerCreateStart());
     try {
       const res = await axios.post(
@@ -37,6 +38,7 @@ export const partnerCreate =
         {
           headrs: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -68,13 +70,17 @@ const partnerFetchFail = (err) => {
     payload: err,
   };
 };
-
-export const partnerFetch = () => async (dispatch) => {
+export const partnerFetch = (token) => async (dispatch) => {
   dispatch(partnerFetchStart());
   try {
-    const res = await axios.get(partnerapi);
-    dispatch(partnerFetchSuccess(res.data));
+    const res = await axios.get(partnerapi, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(partnerFetchSuccess(res.data.partners));
   } catch (err) {
     dispatch(partnerFetchFail(err));
+    console.log(err);
   }
 };

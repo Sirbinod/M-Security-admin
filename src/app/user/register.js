@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, {useState} from "react";
 import {Form} from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router";
-import {signup} from "../../store/action/profile";
+import {signupapi} from "../../utility/profile";
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -13,10 +13,6 @@ const Register = () => {
     phone: "",
   });
 
-  const {loading, error, success} = useSelector((state) => state.profile);
-
-  const dispatch = useDispatch();
-
   let name, value;
   const handleInput = (x) => {
     name = x.target.name;
@@ -25,19 +21,21 @@ const Register = () => {
   };
 
   const postData = async (e) => {
-    dispatch(
-      signup(
-        user.firstname,
-        user.lastname,
-        user.email,
-        user.password,
-        user.phone
-      )
-    );
+    e.preventDefault();
+    try {
+      const res = await axios.post(signupapi, {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        password: user.password,
+        phone: user.phone,
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
-  if (success) {
-    return <Redirect to="/user/login" />;
-  }
+
   return (
     <div>
       <div className="page-header">
@@ -109,13 +107,13 @@ const Register = () => {
                 onChange={handleInput}
               />
             </Form.Group>
-            {error && <p className="text-error alert-danger">{error} </p>}
+
             <button
               type="submit"
               // onclick={postData}
               className="btn btn-primary mr-2"
             >
-              {loading ? <>Loading...</> : <>Submit</>}
+              Submit
             </button>
             <button className="btn btn-dark">Cancel</button>
           </form>

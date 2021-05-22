@@ -30,7 +30,7 @@ const profile = (state = initState, action) => {
       console.log(action.user);
       const user = action.payload.user;
       user.token = action.payload.token;
-      localStorage.setItem("user", user);
+      localStorage.setItem("user", JSON.stringify(user));
       return {
         ...state,
         user: user,

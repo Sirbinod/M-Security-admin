@@ -7,7 +7,9 @@ import {
   COST_FETCH_FAIL,
 } from "../action/actionType";
 
-const initState = {};
+const initState = {
+  platform: [],
+};
 
 const cost = (state = initState, action) => {
   switch (action.type) {
@@ -18,7 +20,7 @@ const cost = (state = initState, action) => {
     case COST_CREATE_SUCCESS:
       return {
         ...state,
-        payload: action.payload,
+        platform: action.payload,
       };
     case COST_CREATE_FAIL:
       return {
@@ -32,7 +34,7 @@ const cost = (state = initState, action) => {
     case COST_FETCH_SUCCESS:
       return {
         ...state,
-        payload: action.payload,
+        platform: action.payload,
       };
     case COST_FETCH_FAIL:
       return {

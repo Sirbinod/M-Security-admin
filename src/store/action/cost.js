@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import {costapi, costcreateapi} from "../../utility/profile";
 import {
   COST_CREATE_START,
@@ -27,27 +28,31 @@ const costCreateFail = (err) => {
   };
 };
 
-export const costCreate = (platform, price, title) => async (dispatch) => {
-  dispatch(costCreateStart());
-  try {
-    const res = await axios.post(
-      costcreateapi,
-      {platform, price, title},
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+export const costCreate =
+  (platform, price, title, token) => async (dispatch) => {
+    dispatch(costCreateStart());
+    alert(token);
+    try {
+      const res = await axios.post(
+        costcreateapi,
+        {platform, price, title},
+        {
+          headers: {
+            "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.data.success) {
+        return dispatch(costCreateSuccess(res.data));
+      } else {
+        return dispatch(costCreateFail(res.data.message));
       }
-    );
-    if (res.data.success) {
-      return dispatch(costCreateSuccess(res.data));
-    } else {
-      return dispatch(costCreateFail(res.data.message));
+    } catch (err) {
+      dispatch(costCreateFail(err.toString()));
     }
-  } catch (err) {
-    dispatch(costCreateFail(err.toString()));
-  }
-};
+  };
 
 const costFetchStart = () => {
   return {
@@ -69,11 +74,15 @@ const costFetchFail = (err) => {
   };
 };
 
-export const costFetch = () => async (dispatch) => {
+export const costFetch = (token) => async (dispatch) => {
   dispatch(costFetchStart());
   try {
-    const res = await axios.get(costapi);
-    dispatch(costFetchSuccess(res.data));
+    const res = await axios.get(costapi, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(costFetchSuccess(res.data.platform));
   } catch (err) {
     dispatch(costFetchFail(err));
   }

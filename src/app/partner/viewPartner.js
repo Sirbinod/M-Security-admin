@@ -1,6 +1,17 @@
-import React from "react";
+import React, {useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {partnerFetch} from "../../store/action/partner";
 
 const ViewPartner = () => {
+  const dispatch = useDispatch();
+  const partner = useSelector((state) => state.partner);
+  // const token = "asdasd";
+  const {
+    user: {token},
+  } = useSelector((state) => state.profile);
+  useEffect(() => {
+    dispatch(partnerFetch(token));
+  }, [dispatch]);
   return (
     <div>
       <div className="page-header">
@@ -12,6 +23,7 @@ const ViewPartner = () => {
           <div className="table-responsive">
             <table className="table">
               <thead>
+                {/* {partner.partners.map((part) => ( */}
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
@@ -19,22 +31,18 @@ const ViewPartner = () => {
                   <th>Phone No.</th>
                   <th>Shop ID</th>
                 </tr>
+                {/* ))} */}
               </thead>
               <tbody>
-                <tr>
-                  <td>Esewa</td>
-                  <td>merchant@esewa.com.np</td>
-                  <td>Kathmandu, Nepal</td>
-                  <td>9801079578</td>
-                  <td>0003</td>
-                </tr>
-                <tr>
-                  <td>Esewa</td>
-                  <td>merchant@esewa.com.np</td>
-                  <td>Kathmandu, Nepal</td>
-                  <td>9801079578</td>
-                  <td>0003</td>
-                </tr>
+                {partner.partners.map((e) => (
+                  <tr key={e._id}>
+                    <td>{e.name}</td>
+                    <td>{e.email}</td>
+                    <td>{e.location}</td>
+                    <td>{e.phone}</td>
+                    <td>{e.shopId}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
