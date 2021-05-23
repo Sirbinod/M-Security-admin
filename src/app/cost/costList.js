@@ -34,9 +34,9 @@ const CostList = () => {
               <tbody>
                 {platform.platform.map((c) => (
                   <tr>
-                    <td>PC</td>
-                    <td> Rs 500</td>
-                    <td>This is pc</td>
+                    <td>{c.platform}</td>
+                    <td>{c.price}</td>
+                    <td>{c.title}</td>
                     <td>
                       <label className="badge badge-warning">Edit</label>
                     </td>

@@ -31,7 +31,7 @@ const costCreateFail = (err) => {
 export const costCreate =
   (platform, price, title, token) => async (dispatch) => {
     dispatch(costCreateStart());
-    alert(token);
+    console.log("token", token);
     try {
       const res = await axios.post(
         costcreateapi,
@@ -39,7 +39,6 @@ export const costCreate =
         {
           headers: {
             "Content-Type": "application/json",
-
             Authorization: `Bearer ${token}`,
           },
         }

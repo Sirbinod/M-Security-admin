@@ -20,9 +20,12 @@ const Partner = (state = initState, action) => {
         ...state,
       };
     case PARTNER_CREATE_SUCCESS:
+      const newPartners = state.partners;
+      const newPartner = action.payload.data;
+      newPartners.push(newPartner);
       return {
         ...state,
-        partners: action.payload,
+        partners: newPartners,
       };
 
     case PARTNER_CREATE_FAIL:

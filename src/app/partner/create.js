@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Form} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {partnerCreate} from "../../store/action/partner";
+
 const Create = () => {
   const state = useSelector((state) => state.partner);
   const dispatch = useDispatch();

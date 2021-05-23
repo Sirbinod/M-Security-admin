@@ -12,7 +12,6 @@ const CostList = lazy(() => import("./cost/costList"));
 const CreateCost = lazy(() => import("./cost/createCost"));
 
 const CreateLicens = lazy(() => import("./licenses/createLicens"));
-const Activate = lazy(() => import("./licenses/activate"));
 const LicensesList = lazy(() => import("./licenses/licensesList"));
 
 const Error404 = lazy(() => import("./error-pages/Error404"));
@@ -36,7 +35,6 @@ class AppRoutes extends Component {
           <Route path="/cost/costList" component={CostList} />
 
           <Route path="/licenses/createLicens" component={CreateLicens} />
-          <Route path="/licenses/activate" component={Activate} />
           <Route path="/licenses/licensesList" component={LicensesList} />
 
           <Route path="/virus/virusList" component={VirusList} />

@@ -23,7 +23,6 @@ const ViewPartner = () => {
           <div className="table-responsive">
             <table className="table">
               <thead>
-                {/* {partner.partners.map((part) => ( */}
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
@@ -31,11 +30,10 @@ const ViewPartner = () => {
                   <th>Phone No.</th>
                   <th>Shop ID</th>
                 </tr>
-                {/* ))} */}
               </thead>
               <tbody>
                 {partner.partners.map((e) => (
-                  <tr key={e._id}>
+                  <tr key={e.id}>
                     <td>{e.name}</td>
                     <td>{e.email}</td>
                     <td>{e.location}</td>

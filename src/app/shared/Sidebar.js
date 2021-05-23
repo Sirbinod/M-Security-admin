@@ -182,7 +182,7 @@ class Sidebar extends Component {
               data-toggle="collapse"
             >
               <span className="menu-icon">
-                <i className="mdi mdi-account-multiple-plus"></i>
+                <i className="mdi mdi-currency-usd"></i>
               </span>
               <span className="menu-title">
                 <Trans>Cost</Trans>
@@ -220,22 +220,6 @@ class Sidebar extends Component {
               </div>
             </Collapse>
           </li>
-          {/* <li
-            className={
-              this.isPathActive("/jjk")
-                ? "nav-item menu-items active"
-                : "nav-item menu-items"
-            }
-          >
-            <Link className="nav-link" to="/dashboard">
-              <span className="menu-icon">
-                <i className="mdi mdi-file-export"></i>
-              </span>
-              <span className="menu-title">
-                <Trans>Export to CSV</Trans>
-              </span>
-            </Link>
-          </li> */}
 
           <li
             className={
@@ -254,7 +238,7 @@ class Sidebar extends Component {
               data-toggle="collapse"
             >
               <span className="menu-icon">
-                <i className="mdi mdi-account-multiple-plus"></i>
+                <i className="mdi mdi-file"></i>
               </span>
               <span className="menu-title">
                 <Trans>Licenses</Trans>
@@ -274,18 +258,6 @@ class Sidebar extends Component {
                       to="/licenses/createLicens"
                     >
                       <Trans>Create</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link
-                      className={
-                        this.isPathActive("/licenses/Activate")
-                          ? "nav-link active"
-                          : "nav-link"
-                      }
-                      to="/licenses/Activate"
-                    >
-                      <Trans>Activate</Trans>
                     </Link>
                   </li>
                   <li className="nav-item">
@@ -319,7 +291,7 @@ class Sidebar extends Component {
               data-toggle="collapse"
             >
               <span className="menu-icon">
-                <i className="mdi mdi-account-multiple-plus"></i>
+                <i className="mdi mdi-alert-circle-outline"></i>
               </span>
               <span className="menu-title">
                 <Trans>Virus</Trans>
@@ -360,7 +332,7 @@ class Sidebar extends Component {
               data-toggle="collapse"
             >
               <span className="menu-icon">
-                <i className="mdi mdi-account-multiple-plus"></i>
+                <i className="mdi mdi-account"></i>
               </span>
               <span className="menu-title">
                 <Trans>User</Trans>
