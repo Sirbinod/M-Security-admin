@@ -2,37 +2,39 @@ import React, {useState} from "react";
 import {Form} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {costCreate} from "../../store/action/cost";
+import {Field, reduxForm} from "redux-form";
+import validate from "../test/validate";
 
-const CreateCost = () => {
+const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
+  <div>
+    <div>
+      <input {...input} placeholder={label} type={type} />
+    </div>
+    {touched &&
+      ((error && <span className="error">{error}</span>) ||
+        (warning && <span>{warning}</span>))}
+  </div>
+);
+
+const CreateCost = (props) => {
   const state = useSelector((state) => state.cost);
   const {
     user: {token},
   } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
-  const [cost, setCost] = useState({
-    platform: "",
-    price: "",
-    title: "",
-  });
-
-  let name, value;
-  const handleInput = (e) => {
-    name = e.target.name;
-    value = e.target.value;
-    setCost({...cost, [name]: value});
-  };
   const postData = async (e) => {
     e.preventDefault();
     try {
       const dataCost = await dispatch(
-        costCreate(cost.platform, cost.price, cost.title, token)
+        costCreate(e.platform, e.price, e.title, token)
       );
+      console.log(dataCost);
     } catch (err) {
       console.log(err);
     }
   };
-
+  const {handleSubmit} = props;
   return (
     <div>
       <div className="page-header">
@@ -44,41 +46,35 @@ const CreateCost = () => {
         <div className="card-body">
           <h4 className="card-title">New Cost Create</h4>
           {/* <p className="card-description"> Basic form elements </p> */}
-          <form className="forms-sample" onSubmit={postData}>
+          <form className="forms-sample" onSubmit={handleSubmit(postData)}>
             <Form.Group>
               <label htmlFor="platform">Platform</label>
-              <Form.Control
+              <Field
                 type="text"
-                className="form-control"
-                id="platform"
                 name="platform"
-                value={cost.platform}
-                onChange={handleInput}
-                placeholder="PC"
+                className="form-control"
+                label="Platform"
+                component={renderField}
               />
             </Form.Group>
             <Form.Group>
               <label htmlFor="price">Price</label>
-              <Form.Control
-                type="text"
-                className="form-control"
-                id="price"
+              <Field
+                type="number"
                 name="price"
-                value={cost.price}
-                onChange={handleInput}
-                placeholder="23"
+                className="form-control"
+                label="Price"
+                component={renderField}
               />
             </Form.Group>
             <Form.Group>
               <label htmlFor="title">Title</label>
-              <Form.Control
+              <Field
                 type="text"
-                className="form-control"
-                id="title"
                 name="title"
-                value={cost.title}
-                onChange={handleInput}
-                placeholder="this is pc"
+                className="form-control"
+                label="Title"
+                component={renderField}
               />
             </Form.Group>
 
@@ -93,4 +89,4 @@ const CreateCost = () => {
   );
 };
 
-export default CreateCost;
+export default reduxForm({validate: validate, form: "costForm"})(CreateCost);

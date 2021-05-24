@@ -22,7 +22,9 @@ body {
   padding-left: 0;
   padding-right: 0;
   width: calc(100% - #{$sidebar-width-lg});
-  transition: width $action-transition-duration $action-transition-timing-function, margin $action-transition-duration $action-transition-timing-function;
+  transition: width $action-transition-duration
+      $action-transition-timing-function,
+    margin $action-transition-duration $action-transition-timing-function;
 
   &.full-page-wrapper {
     min-height: 100vh;
@@ -42,13 +44,15 @@ body {
     }
   }
 
-  @media (max-width:992px) {
+  @media (max-width: 992px) {
     width: 100%;
   }
 }
 
 .main-panel {
-  transition: width $action-transition-duration $action-transition-timing-function, margin $action-transition-duration $action-transition-timing-function;
+  transition: width $action-transition-duration
+      $action-transition-timing-function,
+    margin $action-transition-duration $action-transition-timing-function;
   width: 100%;
   min-height: calc(100vh - #{$navbar-height});
   padding-top: $navbar-height;
@@ -101,6 +105,21 @@ code {
     margin-bottom: 0;
   }
 }
+.page-header-l {
+  @extend .d-flex;
+  @extend .justify-content-center;
+  @extend .align-items-center;
+  margin: 3em auto;
+  .breadcrumb {
+    border: 0;
+    margin-bottom: 0;
+  }
+}
+.page-title-l {
+  color: $body-color;
+  font-size: 2rem;
+  margin-bottom: 0;
+}
 .page-title {
   color: $body-color;
   font-size: 1.125rem;
@@ -113,7 +132,7 @@ code {
     text-align: center;
     box-shadow: 0px 3px 8.3px 0.7px rgba(163, 93, 255, 0.35);
     i {
-      font-size: .9375rem;
+      font-size: 0.9375rem;
       line-height: 36px;
     }
   }

@@ -2,74 +2,90 @@ import React, {useState} from "react";
 import {Form} from "react-bootstrap";
 import {useSelector, useDispatch} from "react-redux";
 import {login, loginSuccess} from "../../store/action/profile";
+import validate from "../test/validate";
+import {Field, reduxForm} from "redux-form";
+import {Link} from "react-router-dom";
 
-const Login = () => {
-  const {loading, error, success} = useSelector((state) => state.profile);
-  const dispatch = useDispatch();
+const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
+  <div>
+    <div>
+      <input {...input} placeholder={label} type={type} />
+    </div>
+    {touched &&
+      ((error && <span className="error">{error}</span>) ||
+        (warning && <span>{warning}</span>))}
+  </div>
+);
 
-  const [user, setUser] = useState({email: "", password: ""});
-  let name, value;
-  const handleInput = (x) => {
-    name = x.target.name;
-    value = x.target.value;
-    setUser({...user, [name]: value});
+const Login = (props) => {
+  const [isPWShown, setIsPWShown] = useState(false);
+
+  const showPassword = () => {
+    setIsPWShown(!isPWShown);
   };
-  const postData = async (e) => {
-    e.preventDefault();
-    console.log(user);
+  const dispatch = useDispatch();
+  const {handleSubmit, pristine, reset, submitting} = props;
+  const onSubmit = async (e) => {
     try {
-      const response = await login(user.email, user.password);
-      console.log(response.data.success);
-
-      if (response.data.success) {
-        dispatch(loginSuccess(response.data));
+      const res = await login(e.email, e.password);
+      if (res.data.success) {
+        dispatch(loginSuccess(res.data));
       }
     } catch (err) {}
-    // dispatch(login(user.name, user.password));
+    // dispatch(login(e.name, e.password));
   };
   return (
     <div>
-      <div className="page-header">
-        <h3 className="page-title">User Login</h3>
+      <div className="page-header-l">
+        <h3 className="page-title-l">User Login</h3>
       </div>
-
-      <div className="card">
+      <div className="card" style={{maxWidth: "40rem", margin: "0 auto"}}>
         <div className="card-body">
           <h4 className="card-title">Login Form</h4>
-          <form className="forms-sample" onSubmit={postData}>
+
+          <form className="forms-sample" onSubmit={handleSubmit(onSubmit)}>
             <Form.Group>
               <label htmlFor="email">Email address</label>
-              <Form.Control
+              <Field
+                name="email"
                 type="email"
                 className="form-control"
-                name="email"
-                id="email"
-                placeholder="Enter-Email"
-                value={user.email}
-                onChange={handleInput}
-              />
-            </Form.Group>
-            <Form.Group>
-              <label htmlFor="password">Password</label>
-              <Form.Control
-                type="password"
-                className="form-control"
-                name="password"
-                id="Password"
-                value={user.password}
-                onChange={handleInput}
-                placeholder="Password"
+                component={renderField}
+                label="enter email"
               />
             </Form.Group>
 
+            <Form.Group>
+              <label htmlFor="password">Password</label>
+
+              <Field
+                name="password"
+                type={isPWShown ? "text" : "password"}
+                className="form-control"
+                component={renderField}
+                label="enter password"
+              />
+            </Form.Group>
+            <Form.Group>
+              <button
+                className={`${isPWShown ? "active" : ""}`}
+                onClick={() => showPassword()}
+                type="button"
+              >
+                Show Password
+              </button>
+            </Form.Group>
             <button
               type="submit"
               // onClick={postData}
               className="btn btn-primary mr-2"
             >
-              Submit
+              <Link to="/">Submit</Link>
             </button>
             <button className="btn btn-dark">Cancel</button>
+            <Link className="text-right ml-5" to="/user/register">
+              Create New Account
+            </Link>
           </form>
         </div>
       </div>
@@ -77,4 +93,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default reduxForm({
+  validate: validate,
+  form: "loginForm", // a unique identifier for this form
+})(Login);
