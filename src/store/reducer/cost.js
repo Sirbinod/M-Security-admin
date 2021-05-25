@@ -8,7 +8,10 @@ import {
 } from "../action/actionType";
 
 const initState = {
+  loading: false,
+  success: false,
   platform: [],
+  error: null,
 };
 
 const cost = (state = initState, action) => {
@@ -16,30 +19,37 @@ const cost = (state = initState, action) => {
     case COST_CREATE_START:
       return {
         ...state,
+        loading: true,
       };
     case COST_CREATE_SUCCESS:
+      const newCosts = state.platform;
+      const newCost = action.payload.data;
+      newCosts.push(newCost);
       return {
         ...state,
-        platform: action.payload,
+        platform: newCosts,
+        success: true,
       };
     case COST_CREATE_FAIL:
       return {
         ...state,
-        payload: action.payload,
+        error: action.payload,
       };
     case COST_FETCH_START:
       return {
         ...state,
+        loading: true,
       };
     case COST_FETCH_SUCCESS:
       return {
         ...state,
         platform: action.payload,
+        success: true,
       };
     case COST_FETCH_FAIL:
       return {
         ...state,
-        payload: action.payload,
+        error: action.payload,
       };
     default:
       return state;

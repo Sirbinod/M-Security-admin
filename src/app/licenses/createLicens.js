@@ -16,24 +16,25 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
 );
 
 const CreateLicens = (props) => {
-  const state = useSelector((state) => state.licenses);
+  const {success, error} = useSelector((state) => state.licenses);
   const dispatch = useDispatch();
   const {
     user: {token},
   } = useSelector((state) => state.profile);
 
   const postData = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
       const data = await dispatch(
         licensesCreate(e.number, e.platformID, token)
       );
+      reset();
       console.log(data);
     } catch (err) {
       console.log(err);
     }
   };
-  const {handleSubmit} = props;
+  const {handleSubmit, reset} = props;
   return (
     <div>
       <div className="page-header">
@@ -47,10 +48,10 @@ const CreateLicens = (props) => {
           {/* <p className="card-description"> Basic form elements </p> */}
           <form className="forms-sample" onSubmit={handleSubmit(postData)}>
             <Form.Group>
-              <label htmlFor="number">Number</label>
+              <label htmlFor="num">Number</label>
               <Field
                 type="number"
-                name="number"
+                name="num"
                 className="form-control"
                 label="Number"
                 component={renderField}
@@ -58,19 +59,21 @@ const CreateLicens = (props) => {
             </Form.Group>
             <Form.Group>
               <label htmlFor="platformID">Platform ID</label>
-              <Field
-                type="text"
-                name="platformID"
-                className="form-control"
-                label="Platform ID"
-                component={renderField}
-              />
+              {/* <div className="col-sm-9"> */}
+              <Field className="select-form" component="select">
+                <option>Male</option>
+                <option>Female</option>
+              </Field>
+              {/* </div> */}
             </Form.Group>
-
+            {error ? <p>{error}</p> : ""}
+            {success ? <p>Licenses created SuccessFull</p> : ""}
             <button type="submit" className="btn btn-primary mr-2">
               Submit
             </button>
-            <button className="btn btn-dark">Cancel</button>
+            <button className="btn btn-dark" onClick={reset}>
+              Cancel
+            </button>
           </form>
         </div>
       </div>

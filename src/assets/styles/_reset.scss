@@ -16,6 +16,11 @@ input {
   font-weight: $font-weight-light;
   font-size: 0.7rem;
 }
+.select-form {
+  width: 100% !important;
+  height: 2.5em !important;
+  padding: 0 0.5rem;
+}
 
 .form-control,
 .form-control:focus {

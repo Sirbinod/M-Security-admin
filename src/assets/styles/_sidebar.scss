@@ -2,8 +2,9 @@
 
 .sidebar {
   min-height: calc(100vh);
-  // - #{$navbar-height}
+  //  - #{$navbar-height});
   background: $sidebar-bg;
+
   font-weight: normal;
   padding: 0;
   width: $sidebar-width-lg;

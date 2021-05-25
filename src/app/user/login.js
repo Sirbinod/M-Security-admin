@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {login, loginSuccess} from "../../store/action/profile";
 import validate from "../test/validate";
 import {Field, reduxForm} from "redux-form";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
   <div>
@@ -23,8 +23,9 @@ const Login = (props) => {
   const showPassword = () => {
     setIsPWShown(!isPWShown);
   };
+  const {success, error} = useSelector((state) => state.profile);
   const dispatch = useDispatch();
-  const {handleSubmit, pristine, reset, submitting} = props;
+  const {handleSubmit} = props;
   const onSubmit = async (e) => {
     try {
       const res = await login(e.email, e.password);
@@ -34,6 +35,7 @@ const Login = (props) => {
     } catch (err) {}
     // dispatch(login(e.name, e.password));
   };
+
   return (
     <div>
       <div className="page-header-l">
@@ -66,24 +68,39 @@ const Login = (props) => {
                 label="enter password"
               />
             </Form.Group>
+
             <Form.Group>
               <button
-                className={`${isPWShown ? "active" : ""}`}
+                className={`${
+                  isPWShown ? "active btn btn-warning" : "btn btn-info"
+                }`}
                 onClick={() => showPassword()}
                 type="button"
               >
-                Show Password
+                Show
               </button>
             </Form.Group>
+            <Form.Group>
+              <div className="form-check">
+                <label className="form-check-label text-muted">
+                  <input type="checkbox" className="form-check-input" />
+                  <i className="input-helper"></i>
+                  Remember me
+                </label>
+              </div>
+            </Form.Group>
+            {error ? <p>{error}</p> : ""}
+
             <button
               type="submit"
               // onClick={postData}
               className="btn btn-primary mr-2"
             >
-              <Link to="/">Submit</Link>
+              Submit
             </button>
             <button className="btn btn-dark">Cancel</button>
-            <Link className="text-right ml-5" to="/user/register">
+
+            <Link to="/user/register" className="ml-3">
               Create New Account
             </Link>
           </form>

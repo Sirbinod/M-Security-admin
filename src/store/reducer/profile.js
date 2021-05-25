@@ -15,7 +15,6 @@ const initState = {
   success: false,
   user: user,
   error: null,
-  process: null,
 };
 
 const profile = (state = initState, action) => {
@@ -24,7 +23,6 @@ const profile = (state = initState, action) => {
       return {
         ...state,
         loading: true,
-        process: "LOGIN",
       };
     case LOGIN_SUCCESS:
       console.log(action.user);
@@ -39,27 +37,9 @@ const profile = (state = initState, action) => {
     case LOGIN_FAIL:
       return {
         ...state,
-        process: null,
         error: action.payload,
       };
 
-    case SIGNUP_START:
-      return {
-        ...state,
-        loading: true,
-        process: "SIGNUP",
-      };
-    case SIGNUP_SUCCESS:
-      return {
-        ...state,
-        success: true,
-      };
-    case SIGNUP_FAIL:
-      return {
-        ...state,
-        process: null,
-        error: action.payload,
-      };
     default:
       return state;
   }

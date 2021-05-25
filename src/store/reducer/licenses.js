@@ -9,17 +9,25 @@ import {
 
 const initState = {
   data: [],
+  loading: false,
+  success: false,
+  error: null,
 };
 const licenses = (state = initState, action) => {
   switch (action.type) {
     case LICENSES_CREATE_START:
       return {
         ...state,
+        loading: true,
       };
     case LICENSES_CREATE_SUCCESS:
+      const newLicenses = state.data;
+      const newLicens = action.payload.data;
+      newLicenses.push(newLicens);
       return {
         ...state,
-        data: action.payload,
+        data: newLicenses,
+        success: true,
       };
     case LICENSES_CREATE_FAIL:
       return {
@@ -29,11 +37,13 @@ const licenses = (state = initState, action) => {
     case LICENSES_FETCH_START:
       return {
         ...state,
+        loading: true,
       };
     case LICENSES_FETCH_SUCCESS:
       return {
         ...state,
         data: action.payload,
+        success: true,
       };
     case LICENSES_FETCH_FAIL:
       return {

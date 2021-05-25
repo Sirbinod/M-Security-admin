@@ -3,36 +3,41 @@ import React, {useState} from "react";
 import {Form} from "react-bootstrap";
 import {Redirect} from "react-router";
 import {signupapi} from "../../utility/profile";
+import validate from "../test/validate";
+import {Field, reduxForm} from "redux-form";
 
-const Register = () => {
-  const [user, setUser] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    phone: "",
-  });
+const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
+  <div>
+    <div>
+      <input {...input} placeholder={label} type={type} />
+    </div>
+    {touched &&
+      ((error && <span className="error">{error}</span>) ||
+        (warning && <span>{warning}</span>))}
+  </div>
+);
 
-  let name, value;
-  const handleInput = (x) => {
-    name = x.target.name;
-    value = x.target.value;
-    setUser({...user, [name]: value});
+const Register = (props) => {
+  const [isPWShown, setIsPWShown] = useState(false);
+
+  const showPassword = () => {
+    setIsPWShown(!isPWShown);
   };
-
+  const {handleSubmit} = props;
   const postData = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
       const res = await axios.post(signupapi, {
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        password: user.password,
-        phone: user.phone,
+        firstname: e.firstname,
+        lastname: e.lastname,
+        email: e.email,
+        password: e.password,
+        phone: e.phone,
       });
-      console.log(res);
+
+      console.log("user regist: ", res);
     } catch (err) {
-      console.log(err);
+      console.log("erooororro", err);
     }
   };
 
@@ -45,67 +50,70 @@ const Register = () => {
         <div className="card-body">
           <h4 className="card-title">Signup From</h4>
 
-          <form className="forms-sample" onSubmit={postData}>
+          <form className="forms-sample" onSubmit={handleSubmit(postData)}>
             <Form.Group>
               <label htmlFor="firstname">First Name</label>
-              <Form.Control
+              <Field
                 type="text"
                 className="form-control"
-                id="firstname"
-                name="firstname"
-                value={user.firstname}
+                name="fname"
                 placeholder="First Name"
-                onChange={handleInput}
+                component={renderField}
+                label="enter first name"
               />
             </Form.Group>
             <Form.Group>
               <label htmlFor="lastname">Last Name</label>
-              <Form.Control
+              <Field
                 type="text"
                 className="form-control"
-                id="lastname"
-                name="lastname"
-                value={user.lastname}
-                placeholder="Last Name"
-                onChange={handleInput}
+                name="lname"
+                placeholder="First Name"
+                component={renderField}
+                label="enter last name"
               />
             </Form.Group>
             <Form.Group>
               <label htmlFor="email">Email address</label>
-              <Form.Control
+              <Field
+                name="email"
                 type="email"
                 className="form-control"
-                id="email"
-                name="email"
-                value={user.email}
-                placeholder="Email"
-                onChange={handleInput}
+                component={renderField}
+                label="enter email"
               />
             </Form.Group>
             <Form.Group>
               <label htmlFor="password">Password</label>
-              <Form.Control
-                type="password"
-                className="form-control"
-                id="password"
+              <Field
                 name="password"
-                value={user.password}
-                placeholder="Password"
-                onChange={handleInput}
+                type={isPWShown ? "text" : "password"}
+                className="form-control"
+                component={renderField}
+                label="enter password"
               />
             </Form.Group>
 
             <Form.Group>
               <label htmlFor="phone">Phone Number</label>
-              <Form.Control
-                type="text"
-                className="form-control"
-                id="phone"
+              <Field
                 name="phone"
-                value={user.phone}
-                placeholder="Phone Number"
-                onChange={handleInput}
+                type="number"
+                className="form-control"
+                component={renderField}
+                label="Phone Number"
               />
+            </Form.Group>
+            <Form.Group>
+              <button
+                className={`${
+                  isPWShown ? "active btn btn-warning" : "btn btn-info"
+                }`}
+                onClick={() => showPassword()}
+                type="button"
+              >
+                Show
+              </button>
             </Form.Group>
 
             <button
@@ -123,4 +131,7 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default reduxForm({
+  validate: validate,
+  form: "sigupForm", // a unique identifier for this form
+})(Register);

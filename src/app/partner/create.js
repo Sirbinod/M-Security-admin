@@ -17,7 +17,7 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
 );
 
 const Create = (props) => {
-  const state = useSelector((state) => state.partner);
+  const {error, success} = useSelector((state) => state.partner);
   const dispatch = useDispatch();
 
   const {
@@ -25,17 +25,26 @@ const Create = (props) => {
   } = useSelector((state) => state.profile);
 
   const postData = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
       const data = await dispatch(
-        partnerCreate(e.name, e.email, e.password, e.phone, e.shopid, token)
+        partnerCreate(
+          e.name,
+          e.email,
+          e.password,
+          e.location,
+          e.phone,
+          e.shopid,
+          token
+        )
       );
+      reset();
       console.log(data);
     } catch (err) {
       console.log(err);
     }
   };
-  const {handleSubmit} = props;
+  const {handleSubmit, reset} = props;
   return (
     <div>
       <div className="page-header">
@@ -109,11 +118,14 @@ const Create = (props) => {
                 component={renderField}
               />
             </Form.Group>
-
+            {error ? <p>{error}</p> : ""}
+            {success ? <p>Partner Created SuccessFull</p> : ""}
             <button type="submit" className="btn btn-primary mr-2">
               Submit
             </button>
-            <button className="btn btn-dark">Cancel</button>
+            <button className="btn btn-dark" onClick={reset}>
+              Cancel
+            </button>
           </form>
         </div>
       </div>

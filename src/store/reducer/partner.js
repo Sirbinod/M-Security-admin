@@ -10,7 +10,10 @@ import {
 // let partner = JSON.parse(localStorage.getItem("partners"));
 
 const initState = {
+  loading: false,
+  success: false,
   partners: [],
+  error: null,
 };
 
 const Partner = (state = initState, action) => {
@@ -18,6 +21,7 @@ const Partner = (state = initState, action) => {
     case PARTNER_CREATE_START:
       return {
         ...state,
+        loading: true,
       };
     case PARTNER_CREATE_SUCCESS:
       const newPartners = state.partners;
@@ -26,6 +30,7 @@ const Partner = (state = initState, action) => {
       return {
         ...state,
         partners: newPartners,
+        success: true,
       };
 
     case PARTNER_CREATE_FAIL:
@@ -42,6 +47,7 @@ const Partner = (state = initState, action) => {
       return {
         ...state,
         partners: action.payload,
+        success: true,
       };
 
     case PARTNER_FETCH_FAIL:

@@ -3,6 +3,12 @@ const validate = (values) => {
   if (!values.name) {
     errors.name = "name field shouldn’t be empty";
   }
+  if (!values.fname) {
+    errors.fname = " fist name field shouldn’t be empty";
+  }
+  if (!values.lname) {
+    errors.lname = "last name field shouldn’t be empty";
+  }
   if (!values.email) {
     errors.email = "Email field shouldn’t be empty";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -29,9 +35,9 @@ const validate = (values) => {
     errors.location = "location shouldn't be empty";
   }
   if (!values.phone) {
-    errors.phone = "phoneNUmber shouldn't be empty";
-  } else if (values.phone.length < 9) {
-    errors.phone = "The phone number should be greater than 10";
+    errors.phone = "phone Number shouldn't be empty";
+  } else if (!values.phone.length === 9) {
+    errors.phone = "The phone number should be 10 digit number";
   }
 
   if (!values.shopid) {
@@ -47,9 +53,15 @@ const validate = (values) => {
   }
 
   if (!values.title) {
-    errors.title = "T itle shouldn't be empty";
+    errors.title = "Title shouldn't be empty";
+  }
+  if (!values.num) {
+    errors.num = "Number shouldn't be empty";
   }
 
+  if (!values.platformID) {
+    errors.platformID = "platform ID shouldn't be empty";
+  }
   return errors;
 };
 

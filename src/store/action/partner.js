@@ -29,12 +29,13 @@ const partnerCreateFail = (err) => {
 };
 
 export const partnerCreate =
-  (name, email, location, phone, password, token) => async (dispatch) => {
+  (name, email, password, location, phone, shopid, token) =>
+  async (dispatch) => {
     dispatch(partnerCreateStart());
     try {
       const res = await axios.post(
         partnercreateapi,
-        {name, email, location, phone, password},
+        {name, email, location, phone, shopid, password},
         {
           headrs: {
             "Content-Type": "application/json",

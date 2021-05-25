@@ -17,24 +17,25 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
 );
 
 const CreateCost = (props) => {
-  const state = useSelector((state) => state.cost);
+  const {loading, success, error} = useSelector((state) => state.cost);
   const {
     user: {token},
   } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
   const postData = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
       const dataCost = await dispatch(
         costCreate(e.platform, e.price, e.title, token)
       );
+      reset();
       console.log(dataCost);
     } catch (err) {
       console.log(err);
     }
   };
-  const {handleSubmit} = props;
+  const {handleSubmit, reset} = props;
   return (
     <div>
       <div className="page-header">
@@ -77,11 +78,18 @@ const CreateCost = (props) => {
                 component={renderField}
               />
             </Form.Group>
-
+            {error ? <p className="text-danger">{error}</p> : ""}
+            {success ? (
+              <p className="text-success">Cost Created SuccessFull</p>
+            ) : (
+              ""
+            )}
             <button type="submit" className="btn btn-primary mr-2">
               Submit
             </button>
-            <button className="btn btn-dark">Cancel</button>
+            <button className="btn btn-dark" onClick={reset}>
+              Cancel
+            </button>
           </form>
         </div>
       </div>
