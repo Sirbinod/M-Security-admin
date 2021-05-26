@@ -50,6 +50,7 @@ export const costCreate =
       }
     } catch (err) {
       dispatch(costCreateFail(err.toString()));
+      console.log("error :", err);
     }
   };
 

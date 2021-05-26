@@ -23,7 +23,7 @@ const cost = (state = initState, action) => {
       };
     case COST_CREATE_SUCCESS:
       const newCosts = state.platform;
-      const newCost = action.payload.data;
+      const newCost = action.payload.platform;
       newCosts.push(newCost);
       return {
         ...state,

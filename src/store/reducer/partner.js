@@ -25,7 +25,7 @@ const Partner = (state = initState, action) => {
       };
     case PARTNER_CREATE_SUCCESS:
       const newPartners = state.partners;
-      const newPartner = action.payload.data;
+      const newPartner = action.payload.pertner;
       newPartners.push(newPartner);
       return {
         ...state,

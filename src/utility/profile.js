@@ -1,4 +1,4 @@
-export const url = "http://143.110.190.157:6010";
+export const url = "http://143.110.190.157:6050";
 
 export const signupapi = `${url}/api/user/create`;
 export const signinapi = `${url}/api/user/login`;

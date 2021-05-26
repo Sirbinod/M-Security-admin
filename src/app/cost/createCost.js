@@ -32,7 +32,7 @@ const CreateCost = (props) => {
       reset();
       console.log(dataCost);
     } catch (err) {
-      console.log(err);
+      console.log("error found:", err);
     }
   };
   const {handleSubmit, reset} = props;

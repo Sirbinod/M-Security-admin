@@ -31,10 +31,14 @@ const Login = (props) => {
       const res = await login(e.email, e.password);
       if (res.data.success) {
         dispatch(loginSuccess(res.data));
+        return <Redirect to="/" />;
       }
     } catch (err) {}
     // dispatch(login(e.name, e.password));
   };
+  // {
+  // return success && <Redirect to="/" />;
+  // }
 
   return (
     <div>
@@ -69,7 +73,7 @@ const Login = (props) => {
               />
             </Form.Group>
 
-            <Form.Group>
+            {/* <Form.Group>
               <button
                 className={`${
                   isPWShown ? "active btn btn-warning" : "btn btn-info"
@@ -79,13 +83,18 @@ const Login = (props) => {
               >
                 Show
               </button>
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group>
               <div className="form-check">
                 <label className="form-check-label text-muted">
-                  <input type="checkbox" className="form-check-input" />
+                  <input
+                    type="checkbox"
+                    checked={isPWShown}
+                    onChange={showPassword}
+                    className="form-check-input"
+                  />
                   <i className="input-helper"></i>
-                  Remember me
+                  Show Password
                 </label>
               </div>
             </Form.Group>

@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {licensesCreate} from "../../store/action/licenses";
 import {Field, reduxForm} from "redux-form";
 import validate from "../test/validate";
+import {costFetch} from "../../store/action/cost";
 
 const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
   <div>
@@ -17,10 +18,14 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
 
 const CreateLicens = (props) => {
   const {success, error} = useSelector((state) => state.licenses);
-  const dispatch = useDispatch();
+  const {platform, success: pSuccess} = useSelector((state) => state.cost);
   const {
     user: {token},
   } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
+  if (!pSuccess && platform.length === 0) {
+    dispatch(costFetch(token));
+  }
 
   const postData = async (e) => {
     // e.preventDefault();
@@ -61,8 +66,11 @@ const CreateLicens = (props) => {
               <label htmlFor="platformID">Platform ID</label>
               {/* <div className="col-sm-9"> */}
               <Field className="select-form" component="select">
-                <option>Male</option>
-                <option>Female</option>
+                {platform.map((e) => (
+                  <option key={e._id} value={e._id}>
+                    {e.name}
+                  </option>
+                ))}
               </Field>
               {/* </div> */}
             </Form.Group>
