@@ -1,12 +1,17 @@
-import React, {useState} from "react";
-import {Form} from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
-import {licensesCreate} from "../../store/action/licenses";
-import {Field, reduxForm} from "redux-form";
+import React, { useState, useEffect } from "react";
+import { Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { licensesCreate } from "../../store/action/licenses";
+import { Field, reduxForm } from "redux-form";
 import validate from "../test/validate";
-import {costFetch} from "../../store/action/cost";
+import { costFetch } from "../../store/action/cost";
 
-const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
+const renderField = ({
+  input,
+  label,
+  type,
+  meta: { touched, error, warning },
+}) => (
   <div>
     <input {...input} placeholder={label} type={type} />
 
@@ -17,16 +22,18 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
 );
 
 const CreateLicens = (props) => {
-  const {success, error} = useSelector((state) => state.licenses);
-  const {platform, success: pSuccess} = useSelector((state) => state.cost);
+  const { success, error } = useSelector((state) => state.licenses);
+  const { platform, success: pSuccess } = useSelector((state) => state.cost);
   const {
-    user: {token},
+    user: { token },
   } = useSelector((state) => state.profile);
-  const dispatch = useDispatch();
-  if (!pSuccess && platform.length === 0) {
-    dispatch(costFetch(token));
-  }
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!pSuccess && platform.length === 0) {
+      dispatch(costFetch(token));
+    }
+  }, [dispatch]);
   const postData = async (e) => {
     // e.preventDefault();
     try {
@@ -39,7 +46,7 @@ const CreateLicens = (props) => {
       console.log(err);
     }
   };
-  const {handleSubmit, reset} = props;
+  const { handleSubmit, reset } = props;
   return (
     <div>
       <div className="page-header">
@@ -68,7 +75,7 @@ const CreateLicens = (props) => {
               <Field className="select-form" component="select">
                 {platform.map((e) => (
                   <option key={e._id} value={e._id}>
-                    {e.name}
+                    {e.title}
                   </option>
                 ))}
               </Field>

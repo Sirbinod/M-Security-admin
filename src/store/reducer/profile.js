@@ -31,6 +31,7 @@ const profile = (state = initState, action) => {
       localStorage.setItem("user", JSON.stringify(user));
       return {
         ...state,
+        isLoggedIn: true,
         user: user,
         success: true,
       };

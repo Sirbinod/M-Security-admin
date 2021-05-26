@@ -1,12 +1,17 @@
-import React, {useState} from "react";
-import {Form} from "react-bootstrap";
-import {useSelector, useDispatch} from "react-redux";
-import {login, loginSuccess} from "../../store/action/profile";
+import React, { useState } from "react";
+import { Form } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { login, loginSuccess } from "../../store/action/profile";
 import validate from "../test/validate";
-import {Field, reduxForm} from "redux-form";
-import {Link, Redirect} from "react-router-dom";
+import { Field, reduxForm } from "redux-form";
+import { Link, Redirect } from "react-router-dom";
 
-const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
+const renderField = ({
+  input,
+  label,
+  type,
+  meta: { touched, error, warning },
+}) => (
   <div>
     <div>
       <input {...input} placeholder={label} type={type} />
@@ -23,15 +28,14 @@ const Login = (props) => {
   const showPassword = () => {
     setIsPWShown(!isPWShown);
   };
-  const {success, error} = useSelector((state) => state.profile);
+  const { success, error, isLoggedIn } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
-  const {handleSubmit} = props;
+  const { handleSubmit } = props;
   const onSubmit = async (e) => {
     try {
       const res = await login(e.email, e.password);
       if (res.data.success) {
         dispatch(loginSuccess(res.data));
-        return <Redirect to="/" />;
       }
     } catch (err) {}
     // dispatch(login(e.name, e.password));
@@ -39,13 +43,15 @@ const Login = (props) => {
   // {
   // return success && <Redirect to="/" />;
   // }
-
+  if (isLoggedIn) {
+    return <Redirect to="/" />;
+  }
   return (
     <div>
       <div className="page-header-l">
         <h3 className="page-title-l">User Login</h3>
       </div>
-      <div className="card" style={{maxWidth: "40rem", margin: "0 auto"}}>
+      <div className="card" style={{ maxWidth: "40rem", margin: "0 auto" }}>
         <div className="card-body">
           <h4 className="card-title">Login Form</h4>
 
