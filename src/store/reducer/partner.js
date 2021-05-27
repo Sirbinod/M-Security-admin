@@ -31,12 +31,14 @@ const Partner = (state = initState, action) => {
         ...state,
         partners: newPartners,
         success: true,
+        loading: false,
       };
 
     case PARTNER_CREATE_FAIL:
       return {
         ...state,
         error: action.payload,
+        loading: false,
       };
     case PARTNER_FETCH_START:
       return {
@@ -48,12 +50,14 @@ const Partner = (state = initState, action) => {
         ...state,
         partners: action.payload,
         success: true,
+        loading: false,
       };
 
     case PARTNER_FETCH_FAIL:
       return {
         ...state,
         error: action.payload,
+        loading: false,
       };
     default:
       return state;

@@ -19,8 +19,10 @@ const Error500 = lazy(() => import("./error-pages/Error500"));
 
 const VirusList = lazy(() => import("./virus/virusList"));
 
-const Register = lazy(() => import("./user/register"));
-const Login = lazy(() => import("./user/login"));
+const Logout = lazy(() => import("./user/logout"));
+
+// const Register = lazy(() => import("./user/register"));
+// const Login = lazy(() => import("./user/login"));
 
 class AppRoutes extends Component {
   render() {
@@ -38,9 +40,9 @@ class AppRoutes extends Component {
           <Route path="/licenses/licensesList" component={LicensesList} />
 
           <Route path="/virus/virusList" component={VirusList} />
-
-          <Route path="/user/register" component={Register} />
-          <Route path="/user/login" component={Login} />
+          <Route path="/user/logout" component={Logout} />
+          {/* <Route path="/user/register" component={Register} />
+          <Route path="/user/login" component={Login} /> */}
 
           <Route path="/error-pages/error-404" component={Error404} />
           <Route path="/error-pages/error-500" component={Error500} />

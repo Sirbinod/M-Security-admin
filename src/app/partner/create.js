@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import {Form} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {partnerCreate} from "../../store/action/partner";
 import {Field, reduxForm} from "redux-form";
 import validate from "../test/validate";
+import Loading from "../loading/loading";
 
 const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
   <div>
@@ -17,7 +18,7 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
 );
 
 const Create = (props) => {
-  const {error, success} = useSelector((state) => state.partner);
+  const {loading, error, success} = useSelector((state) => state.partner);
   const dispatch = useDispatch();
 
   const {
@@ -27,7 +28,7 @@ const Create = (props) => {
   const postData = async (e) => {
     // e.preventDefault();
     try {
-      const data = await dispatch(
+      await dispatch(
         partnerCreate(
           e.name,
           e.email,
@@ -39,12 +40,11 @@ const Create = (props) => {
         )
       );
       reset();
-      console.log(data);
     } catch (err) {
-      console.log(err);
+      dispatch(err);
     }
   };
-  const {handleSubmit, reset} = props;
+  const {handleSubmit, reset, pristine, submitting} = props;
   return (
     <div>
       <div className="page-header">
@@ -118,14 +118,29 @@ const Create = (props) => {
                 component={renderField}
               />
             </Form.Group>
-            {error ? <p>{error}</p> : ""}
-            {success ? <p>Partner Created SuccessFull</p> : ""}
-            <button type="submit" className="btn btn-primary mr-2">
+            {error ? (
+              <p className="text-danger">{error}</p>
+            ) : success ? (
+              <p className="text-success">Partner Created SuccessFull</p>
+            ) : (
+              ""
+            )}
+
+            <button
+              type="submit"
+              className="btn btn-primary mr-2"
+              disabled={pristine || submitting}
+            >
               Submit
             </button>
-            <button className="btn btn-dark" onClick={reset}>
+            <button
+              className="btn btn-dark"
+              onClick={reset}
+              disabled={pristine || submitting}
+            >
               Cancel
             </button>
+            {loading ? <Loading /> : ""}
           </form>
         </div>
       </div>

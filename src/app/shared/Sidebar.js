@@ -317,59 +317,6 @@ class Sidebar extends Component {
               </div>
             </Collapse>
           </li>
-          <li
-            className={
-              this.isPathActive("/user")
-                ? "nav-item menu-items active"
-                : "nav-item menu-items"
-            }
-          >
-            <div
-              className={
-                this.state.userMenuOpen ? "nav-link menu-expanded" : "nav-link"
-              }
-              onClick={() => this.toggleMenuState("userMenuOpen")}
-              data-toggle="collapse"
-            >
-              <span className="menu-icon">
-                <i className="mdi mdi-account"></i>
-              </span>
-              <span className="menu-title">
-                <Trans>User</Trans>
-              </span>
-              <i className="menu-arrow"></i>
-            </div>
-            <Collapse in={this.state.userMenuOpen}>
-              <div>
-                <ul className="nav flex-column sub-menu">
-                  <li className="nav-item">
-                    <Link
-                      className={
-                        this.isPathActive("/user/register")
-                          ? "nav-link active"
-                          : "nav-link"
-                      }
-                      to="/user/register"
-                    >
-                      <Trans>Signup</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link
-                      className={
-                        this.isPathActive("/user/login")
-                          ? "nav-link active"
-                          : "nav-link"
-                      }
-                      to="/user/login"
-                    >
-                      <Trans>Login</Trans>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </Collapse>
-          </li>
         </ul>
       </nav>
     );

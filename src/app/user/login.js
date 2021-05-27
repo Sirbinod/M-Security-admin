@@ -1,17 +1,12 @@
-import React, { useState } from "react";
-import { Form } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { login, loginSuccess } from "../../store/action/profile";
+import React, {useState} from "react";
+import {Form} from "react-bootstrap";
+import {useSelector, useDispatch} from "react-redux";
+import {login, loginSuccess, loginFail} from "../../store/action/profile";
 import validate from "../test/validate";
-import { Field, reduxForm } from "redux-form";
-import { Link, Redirect } from "react-router-dom";
+import {Field, reduxForm} from "redux-form";
+import {Link, Redirect} from "react-router-dom";
 
-const renderField = ({
-  input,
-  label,
-  type,
-  meta: { touched, error, warning },
-}) => (
+const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
   <div>
     <div>
       <input {...input} placeholder={label} type={type} />
@@ -28,21 +23,20 @@ const Login = (props) => {
   const showPassword = () => {
     setIsPWShown(!isPWShown);
   };
-  const { success, error, isLoggedIn } = useSelector((state) => state.profile);
+  const {error, isLoggedIn} = useSelector((state) => state.profile);
   const dispatch = useDispatch();
-  const { handleSubmit } = props;
+  const {handleSubmit, pristine, submitting} = props;
   const onSubmit = async (e) => {
     try {
       const res = await login(e.email, e.password);
       if (res.data.success) {
         dispatch(loginSuccess(res.data));
       }
-    } catch (err) {}
-    // dispatch(login(e.name, e.password));
+    } catch (err) {
+      dispatch(loginFail(err.response.data.error));
+    }
   };
-  // {
-  // return success && <Redirect to="/" />;
-  // }
+
   if (isLoggedIn) {
     return <Redirect to="/" />;
   }
@@ -51,7 +45,7 @@ const Login = (props) => {
       <div className="page-header-l">
         <h3 className="page-title-l">User Login</h3>
       </div>
-      <div className="card" style={{ maxWidth: "40rem", margin: "0 auto" }}>
+      <div className="card" style={{maxWidth: "40rem", margin: "0 auto"}}>
         <div className="card-body">
           <h4 className="card-title">Login Form</h4>
 
@@ -79,17 +73,6 @@ const Login = (props) => {
               />
             </Form.Group>
 
-            {/* <Form.Group>
-              <button
-                className={`${
-                  isPWShown ? "active btn btn-warning" : "btn btn-info"
-                }`}
-                onClick={() => showPassword()}
-                type="button"
-              >
-                Show
-              </button>
-            </Form.Group> */}
             <Form.Group>
               <div className="form-check">
                 <label className="form-check-label text-muted">
@@ -104,18 +87,20 @@ const Login = (props) => {
                 </label>
               </div>
             </Form.Group>
-            {error ? <p>{error}</p> : ""}
+            {error ? <p className="text-danger">{error}</p> : ""}
 
             <button
               type="submit"
-              // onClick={postData}
               className="btn btn-primary mr-2"
+              disabled={pristine || submitting}
             >
               Submit
             </button>
-            <button className="btn btn-dark">Cancel</button>
+            <button className="btn btn-dark" disabled={pristine || submitting}>
+              Cancel
+            </button>
 
-            <Link to="/user/register" className="ml-3">
+            <Link to="/register" className="ml-3">
               Create New Account
             </Link>
           </form>

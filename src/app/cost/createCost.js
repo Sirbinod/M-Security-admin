@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import {Form} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {costCreate} from "../../store/action/cost";
 import {Field, reduxForm} from "redux-form";
 import validate from "../test/validate";
+import Loading from "../loading/loading";
 
 const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
   <div>
@@ -26,16 +27,13 @@ const CreateCost = (props) => {
   const postData = async (e) => {
     // e.preventDefault();
     try {
-      const dataCost = await dispatch(
-        costCreate(e.platform, e.price, e.title, token)
-      );
+      await dispatch(costCreate(e.platform, e.price, e.title, token));
       reset();
-      console.log(dataCost);
     } catch (err) {
       console.log("error found:", err);
     }
   };
-  const {handleSubmit, reset} = props;
+  const {handleSubmit, reset, pristine, submitting} = props;
   return (
     <div>
       <div className="page-header">
@@ -78,18 +76,28 @@ const CreateCost = (props) => {
                 component={renderField}
               />
             </Form.Group>
-            {error ? <p className="text-danger">{error}</p> : ""}
-            {success ? (
+            {error ? (
+              <p className="text-danger">{error}</p>
+            ) : success ? (
               <p className="text-success">Cost Created SuccessFull</p>
             ) : (
               ""
             )}
-            <button type="submit" className="btn btn-primary mr-2">
+            <button
+              type="submit"
+              className="btn btn-primary mr-2"
+              disabled={pristine || submitting}
+            >
               Submit
             </button>
-            <button className="btn btn-dark" onClick={reset}>
+            <button
+              className="btn btn-dark"
+              onClick={reset}
+              disabled={pristine || submitting}
+            >
               Cancel
             </button>
+            {loading ? <Loading /> : ""}
           </form>
         </div>
       </div>

@@ -1,12 +1,12 @@
 import React, {Component} from "react";
-import {Redirect, Route, withRouter} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 import "./App.scss";
 import AppRoutes from "./AppRoutes";
 import Navbar from "./shared/Navbar";
 import Sidebar from "./shared/Sidebar";
 import Footer from "./shared/Footer";
 import {withTranslation} from "react-i18next";
-import {connect, useSelector} from "react-redux";
+import {connect} from "react-redux";
 import Login from "../app/user/login";
 import Register from "../app/user/register";
 
@@ -18,7 +18,12 @@ class App extends Component {
   render() {
     if (!this.props.user.isLoggedIn) {
       // return <Redirect to="/login" />;
-      return <Route path="/" component={Login} />;
+      return (
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route path="/register" component={Register} />
+        </Switch>
+      );
     }
 
     let navbarComponent = !this.state.isFullPageLayout ? <Navbar /> : "";

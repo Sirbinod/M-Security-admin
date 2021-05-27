@@ -31,13 +31,14 @@ const licensesCreateFail = (err) => {
 
 export const licensesCreate =
   (number, platformId, token) => async (dispatch) => {
+    console.log(number);
     dispatch(licensesCreateStart());
     try {
       const res = await axios.post(
         licensescreateapi,
         {number, platformId},
         {
-          headrs: {
+          headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
@@ -49,7 +50,7 @@ export const licensesCreate =
         return dispatch(licensesCreateFail(res.data.message));
       }
     } catch (err) {
-      dispatch(licensesCreateFail(err.toString()));
+      dispatch(licensesCreateFail(err.response.data.error));
     }
   };
 
@@ -87,6 +88,6 @@ export const licensesFetch = (token) => async (dispatch) => {
       return dispatch(licensesFetchFail(res.data.message));
     }
   } catch (err) {
-    dispatch(licensesFetchFail(err.toString()));
+    dispatch(licensesFetchFail(err.response.data.error));
   }
 };

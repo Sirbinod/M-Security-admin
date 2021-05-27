@@ -1,10 +1,10 @@
 import axios from "axios";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Form} from "react-bootstrap";
-import {Redirect} from "react-router";
 import {signupapi} from "../../utility/profile";
 import validate from "../test/validate";
 import {Field, reduxForm} from "redux-form";
+import {Redirect} from "react-router";
 
 const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
   <div>
@@ -23,36 +23,44 @@ const Register = (props) => {
   const showPassword = () => {
     setIsPWShown(!isPWShown);
   };
-  const {handleSubmit} = props;
+
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState([]);
+  const [success, setSuccess] = useState(false);
+
+  if (success) {
+    return <Redirect to="/" />;
+  }
+  const {handleSubmit, pristine, submitting} = props;
   const postData = async (e) => {
     // e.preventDefault();
     try {
-      const res = await axios.post(signupapi, {
-        firstname: e.firstname,
-        lastname: e.lastname,
+      await axios.post(signupapi, {
+        firstname: e.fname,
+        lastname: e.lname,
         email: e.email,
         password: e.password,
         phone: e.phone,
       });
-
-      console.log("user regist: ", res);
+      setSuccess(true);
     } catch (err) {
-      console.log("erooororro", err);
+      setError(true);
+      setMessage(err.response.data.error);
     }
   };
 
   return (
     <div>
-      <div className="page-header">
-        <h3 className="page-title">User Signup </h3>
+      <div className="page-header-l">
+        <h3 className="page-title-l">User Signup </h3>
       </div>
-      <div className="card">
+      <div className="card" style={{maxWidth: "40rem", margin: "0 auto"}}>
         <div className="card-body">
           <h4 className="card-title">Signup From</h4>
 
           <form className="forms-sample" onSubmit={handleSubmit(postData)}>
             <Form.Group>
-              <label htmlFor="firstname">First Name</label>
+              <label htmlFor="fname">First Name</label>
               <Field
                 type="text"
                 className="form-control"
@@ -63,7 +71,7 @@ const Register = (props) => {
               />
             </Form.Group>
             <Form.Group>
-              <label htmlFor="lastname">Last Name</label>
+              <label htmlFor="lname">Last Name</label>
               <Field
                 type="text"
                 className="form-control"
@@ -105,25 +113,31 @@ const Register = (props) => {
               />
             </Form.Group>
             <Form.Group>
-              <button
-                className={`${
-                  isPWShown ? "active btn btn-warning" : "btn btn-info"
-                }`}
-                onClick={() => showPassword()}
-                type="button"
-              >
-                Show
-              </button>
+              <div className="form-check">
+                <label className="form-check-label text-muted">
+                  <input
+                    type="checkbox"
+                    checked={isPWShown}
+                    onChange={showPassword}
+                    className="form-check-input"
+                  />
+                  <i className="input-helper"></i>
+                  Show Password
+                </label>
+              </div>
             </Form.Group>
-
+            {error ? <p className="text-danger">{message}</p> : ""}
             <button
               type="submit"
               // onclick={postData}
               className="btn btn-primary mr-2"
+              disabled={pristine || submitting}
             >
               Submit
             </button>
-            <button className="btn btn-dark">Cancel</button>
+            <button className="btn btn-dark" disabled={pristine || submitting}>
+              Cancel
+            </button>
           </form>
         </div>
       </div>

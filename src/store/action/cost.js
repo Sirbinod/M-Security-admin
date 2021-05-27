@@ -49,8 +49,7 @@ export const costCreate =
         return dispatch(costCreateFail(res.data.message));
       }
     } catch (err) {
-      dispatch(costCreateFail(err.toString()));
-      console.log("error :", err);
+      dispatch(costCreateFail(err.response.data.error));
     }
   };
 
@@ -84,6 +83,6 @@ export const costFetch = (token) => async (dispatch) => {
     });
     dispatch(costFetchSuccess(res.data.platform));
   } catch (err) {
-    dispatch(costFetchFail(err));
+    dispatch(costFetchFail(err.response.data.error));
   }
 };

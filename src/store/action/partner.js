@@ -49,7 +49,7 @@ export const partnerCreate =
         return dispatch(partnerCreateFail(res.data.message));
       }
     } catch (err) {
-      dispatch(partnerCreateFail(err.toString()));
+      dispatch(partnerCreateFail(err.response.data.error));
     }
   };
 
@@ -81,7 +81,6 @@ export const partnerFetch = (token) => async (dispatch) => {
     });
     dispatch(partnerFetchSuccess(res.data.partners));
   } catch (err) {
-    dispatch(partnerFetchFail(err));
-    console.log(err);
+    dispatch(partnerFetchFail(err.response.data.error));
   }
 };

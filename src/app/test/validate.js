@@ -36,7 +36,7 @@ const validate = (values) => {
   }
   if (!values.phone) {
     errors.phone = "phone Number shouldn't be empty";
-  } else if (!values.phone.length === 9) {
+  } else if (values.phone.length != 10) {
     errors.phone = "The phone number should be 10 digit number";
   }
 
@@ -59,9 +59,10 @@ const validate = (values) => {
     errors.num = "Number shouldn't be empty";
   }
 
-  if (!values.platformID) {
-    errors.platformID = "platform ID shouldn't be empty";
+  if (values.value == 0) {
+    errors.platformID = "platform title should be select";
   }
+
   return errors;
 };
 

@@ -19,6 +19,7 @@ const licenses = (state = initState, action) => {
       return {
         ...state,
         loading: true,
+        success: false,
       };
     case LICENSES_CREATE_SUCCESS:
       const newLicenses = state.data;
@@ -28,27 +29,34 @@ const licenses = (state = initState, action) => {
         ...state,
         data: newLicenses,
         success: true,
+        loading: false,
       };
     case LICENSES_CREATE_FAIL:
       return {
         ...state,
         error: action.payload,
+        loading: false,
+        success: false,
       };
     case LICENSES_FETCH_START:
       return {
         ...state,
         loading: true,
+        success: false,
       };
     case LICENSES_FETCH_SUCCESS:
       return {
         ...state,
         data: action.payload,
         success: true,
+        loading: false,
       };
     case LICENSES_FETCH_FAIL:
       return {
         ...state,
         error: action.payload,
+        loading: false,
+        success: false,
       };
     default:
       return state;

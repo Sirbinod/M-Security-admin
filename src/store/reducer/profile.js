@@ -2,9 +2,7 @@ import {
   LOGIN_FAIL,
   LOGIN_START,
   LOGIN_SUCCESS,
-  SIGNUP_START,
-  SIGNUP_SUCCESS,
-  SIGNUP_FAIL,
+  LOGOUT,
 } from "../action/actionType";
 
 let user = JSON.parse(localStorage.getItem("user"));
@@ -39,6 +37,13 @@ const profile = (state = initState, action) => {
       return {
         ...state,
         error: action.payload,
+      };
+
+    case LOGOUT:
+      return {
+        ...state,
+        isLoggedIn: false,
+        user: null,
       };
 
     default:
