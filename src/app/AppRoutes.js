@@ -21,6 +21,8 @@ const VirusList = lazy(() => import("./virus/virusList"));
 
 const Logout = lazy(() => import("./user/logout"));
 
+const ChangePassword = lazy(() => import("./changePassword/changePassword"));
+
 // const Register = lazy(() => import("./user/register"));
 // const Login = lazy(() => import("./user/login"));
 
@@ -41,8 +43,11 @@ class AppRoutes extends Component {
 
           <Route path="/virus/virusList" component={VirusList} />
           <Route path="/user/logout" component={Logout} />
-          {/* <Route path="/user/register" component={Register} />
-          <Route path="/user/login" component={Login} /> */}
+
+          <Route
+            path="/changePassword/changePassword"
+            component={ChangePassword}
+          />
 
           <Route path="/error-pages/error-404" component={Error404} />
           <Route path="/error-pages/error-500" component={Error500} />

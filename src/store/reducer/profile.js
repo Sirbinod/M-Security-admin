@@ -23,7 +23,6 @@ const profile = (state = initState, action) => {
         loading: true,
       };
     case LOGIN_SUCCESS:
-      console.log(action.user);
       const user = action.payload.user;
       user.token = action.payload.token;
       localStorage.setItem("user", JSON.stringify(user));
@@ -40,12 +39,12 @@ const profile = (state = initState, action) => {
       };
 
     case LOGOUT:
+      localStorage.clear();
       return {
         ...state,
         isLoggedIn: false,
         user: null,
       };
-
     default:
       return state;
   }

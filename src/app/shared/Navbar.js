@@ -66,7 +66,11 @@ const Navbar = () => {
                 </div>
                 <div className="preview-item-content">
                   <p className="preview-subject mb-1">
-                    <Trans>Settings</Trans>
+                    <Trans>
+                      <Link to="/changepassword/changepassword">
+                        Chnage Password
+                      </Link>
+                    </Trans>
                   </p>
                 </div>
               </Dropdown.Item>

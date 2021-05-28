@@ -10,7 +10,7 @@ class Footer extends Component {
               Copyright © MSecurity 2020
             </span>
             <span className="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
-              By Sarbin Shrestha
+              By M-Security
             </span>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {costFetch} from "../../store/action/cost";
+import {costDelete, costFetch} from "../../store/action/cost";
 import Loading from "../loading/loading";
 
 const CostList = () => {
@@ -12,6 +12,9 @@ const CostList = () => {
   useEffect(() => {
     dispatch(costFetch(token));
   }, [dispatch]);
+  const dataDelete = (id) => {
+    dispatch(costDelete(id, token));
+  };
   return (
     <div>
       <div className="page-header">
@@ -43,10 +46,15 @@ const CostList = () => {
                       <td>{c.price}</td>
                       <td>{c.title}</td>
                       <td>
-                        <label className="badge badge-warning">Edit</label>
+                        <button className="btn btn-warning">Edit</button>
                       </td>
                       <td>
-                        <label className="badge badge-danger">Delete</label>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => dataDelete(c.id)}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}

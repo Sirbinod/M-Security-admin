@@ -163,6 +163,18 @@ class Sidebar extends Component {
                       <Trans>Create New Partner</Trans>
                     </Link>
                   </li>
+                  {/* <li className="nav-item">
+                    <Link
+                      className={
+                        this.isPathActive("/changePassword/changePassword")
+                          ? "nav-link active"
+                          : "nav-link"
+                      }
+                      to="/changePassword/changePassword"
+                    >
+                      <Trans>ChangePassword</Trans>
+                    </Link>
+                  </li> */}
                 </ul>
               </div>
             </Collapse>

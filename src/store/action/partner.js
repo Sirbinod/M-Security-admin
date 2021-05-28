@@ -1,6 +1,10 @@
 import axios from "axios";
 
-import {partnerapi, partnercreateapi} from "../../utility/profile";
+import {
+  partnerapi,
+  partnercreateapi,
+  partnerpwchangeapi,
+} from "../../utility/profile";
 import {
   PARTNER_CREATE_START,
   PARTNER_CREATE_SUCCESS,
@@ -83,4 +87,10 @@ export const partnerFetch = (token) => async (dispatch) => {
   } catch (err) {
     dispatch(partnerFetchFail(err.response.data.error));
   }
+};
+
+export const partnerPW_Change = () => async (dispatch) => {
+  try {
+    const res = await axios.put(partnerpwchangeapi);
+  } catch (error) {}
 };

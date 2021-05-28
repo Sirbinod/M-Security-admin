@@ -1,6 +1,11 @@
 import axios from "axios";
 
-import {costapi, costcreateapi} from "../../utility/profile";
+import {
+  costapi,
+  costcreateapi,
+  costdeleteapi,
+  costupdateapi,
+} from "../../utility/profile";
 import {
   COST_CREATE_START,
   COST_CREATE_SUCCESS,
@@ -8,6 +13,12 @@ import {
   COST_FETCH_START,
   COST_FETCH_SUCCESS,
   COST_FETCH_FAIL,
+  COST_UPDATE_START,
+  COST_UPDATE_SUCCESS,
+  COST_UPDATE_FAIL,
+  COST_DELETE_START,
+  COST_DELETE_SUCCESS,
+  COST_DELETE_FAIL,
 } from "./actionType";
 
 const costCreateStart = () => {
@@ -31,7 +42,6 @@ const costCreateFail = (err) => {
 export const costCreate =
   (platform, price, title, token) => async (dispatch) => {
     dispatch(costCreateStart());
-    console.log("token", token);
     try {
       const res = await axios.post(
         costcreateapi,
@@ -84,5 +94,83 @@ export const costFetch = (token) => async (dispatch) => {
     dispatch(costFetchSuccess(res.data.platform));
   } catch (err) {
     dispatch(costFetchFail(err.response.data.error));
+  }
+};
+
+const costUpdateStart = () => {
+  return {
+    type: COST_UPDATE_START,
+  };
+};
+
+const costUpdateSuccess = (data) => {
+  return {
+    type: COST_UPDATE_SUCCESS,
+    payload: data,
+  };
+};
+
+const costUpdateFail = (err) => {
+  return {
+    type: COST_UPDATE_FAIL,
+    payload: err,
+  };
+};
+
+export const costUpdate = (id, data) => async (dispatch) => {
+  dispatch(costUpdateStart());
+  try {
+    const res = await axios.put(
+      costupdateapi,
+      {id, data},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (res.data.success) {
+      dispatch(costUpdateSuccess(res.data));
+    } else {
+      dispatch(costUpdateFail(res.data.message));
+    }
+  } catch (error) {
+    dispatch(costUpdateFail(error.response.data.error));
+  }
+};
+
+const costDeleteStart = () => {
+  return {
+    type: COST_DELETE_START,
+  };
+};
+
+const costDeleteSuccess = (id) => {
+  return {
+    type: COST_DELETE_SUCCESS,
+    payload: id,
+  };
+};
+
+const costDeleteFail = (err) => {
+  return {
+    type: COST_DELETE_FAIL,
+    payload: err,
+  };
+};
+
+export const costDelete = (id, token) => async (dispatch) => {
+  dispatch(costDeleteStart());
+  console.log(`whst is: ${id}`, `toke:  ${token}`);
+  try {
+    const res = await axios.delete(costdeleteapi + id, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(costDeleteSuccess(id));
+  } catch (error) {
+    dispatch(costDeleteFail(error));
   }
 };

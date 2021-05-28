@@ -1,5 +1,5 @@
 import axios from "axios";
-import {signinapi} from "../../utility/profile";
+import {signinapi, userpwchangeapi} from "../../utility/profile";
 import {LOGIN_FAIL, LOGIN_START, LOGIN_SUCCESS, LOGOUT} from "./actionType";
 
 // LOGIN
@@ -41,4 +41,17 @@ export const login = (email, password) => {
 
 export const logout = () => (dispatch) => {
   dispatch(logOut());
+};
+
+export const userPW_Change = (oldPassword, newPassword, token) => {
+  return axios.put(
+    userpwchangeapi,
+    {oldPassword, newPassword},
+    {
+      headrs: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };

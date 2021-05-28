@@ -28,6 +28,13 @@ const validate = (values) => {
   } else if (values.password.length < 5) {
     errors.password = "The password should be greater than 6";
   }
+  if (!values.npassword) {
+    errors.npassword = "New Password field shouldn’t be empty";
+  } else if (values.npassword.length < 5) {
+    errors.npassword = "The new password should be greater than 6";
+  } else if (values.npassword === values.password) {
+    errors.npassword = "Old Password and New Password same";
+  }
   if (!values.select) {
     errors.select = "Please select the option";
   }
